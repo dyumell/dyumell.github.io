@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # 날짜 추출
-DATE=$(date +"%Y-%m-%di %H:%M:%S %z")
+DATE=$(date +"%Y-%m-%d %H:%M:%S %z")
 
 # 제목 입력
 TITLE=$1
