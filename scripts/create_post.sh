@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # 날짜 추출
-DATE=$(date +"%Y-%m-%d")
+DATE=$(date +"%Y-%m-%di %H:%M:%S %z")
 
 # 제목 입력
 TITLE=$1
@@ -31,25 +31,17 @@ for FILE in "$POST_DIR"/*; do
 done
 
 # 파일 이름 생성
-FILENAME="${POST_DIR}/${DATE}-${TITLE}.md"
+FILENAME="${POST_DIR}/$(date +"%Y-%m-%d")-${TITLE}.md"
 
-# 템플릿
+# 템플릿 작성
 cat > "$FILENAME" << EOF
 ---
 layout: post
 title: "$TITLE"
-date: ${DATE}T12:00:00+00:00
+date: ${DATE}
 categories:
 tags:
 
 ---
 
 EOF
-
-# 생성 성공시 로그 출력
-if [ -f "$FILENAME" ]; then
-    echo "New post created: $FILENAME"
-else
-    echo "Failed to create post"
-    exit 1  # 생성 실패시 종료
-fi
