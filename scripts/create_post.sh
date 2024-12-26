@@ -33,7 +33,7 @@ done
 # 파일 이름 생성
 FILENAME="${POST_DIR}/${DATE}-${TITLE}.md"
 
-# 템플릿 작성
+# 템플릿
 cat > "$FILENAME" << EOF
 ---
 layout: post
