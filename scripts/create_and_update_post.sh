@@ -1,26 +1,33 @@
 #!/bin/bash
-# 경로 설정
-SCRIPT_DIR="${HOME}/git/dyumell.github.io/scripts"
-# 입력된 제목 확인
+
+# 제목 입력
 TITLE=$1
+
+# 제목이 입력되지 않았으면 종료
 if [ -z "$TITLE" ]; then
-    echo "Usage: new_and_update.sh <title>"
+    echo "Usage: $0 <title>"
     exit 1
 fi
-# 1. create_post.sh 실행
-CREATE_OUTPUT=$("${SCRIPT_DIR}/create_post.sh" "$TITLE")
-if [[ "$CREATE_OUTPUT" =~ New\ post\ created:\ (.+) ]]; then
-    NEW_POST_FILE="${BASH_REMATCH[1]}"
-    echo "$CREATE_OUTPUT" # 생성 성공 메시지 출력
+
+# create_post.sh 호출하여 포스트 생성
+${HOME}/git/dyumell.github.io/scripts/create_post.sh "$TITLE"
+
+# create_post.sh가 중복 제목으로 종료되었으면 종료
+if [ $? -ne 0 ]; then
+    exit 1
+fi
+
+# 포스트 디렉토리 경로
+POST_DIR="${HOME}/git/dyumell.github.io/_posts"
+
+# 제목에 해당하는 파일 경로
+FILENAME=$(find "$POST_DIR" -type f -name "*${TITLE}*.md" -print -quit)
+
+# 생성된 포스트 바로 수정
+if [ -n "$FILENAME" ]; then
+    vim "$FILENAME"
 else
-    echo "$CREATE_OUTPUT" # 실패 메시지 출력
+    echo "Error: Failed to create post for '$TITLE'."
     exit 1
 fi
-# 2. update_post.sh 실행
-"${SCRIPT_DIR}/update_post.sh" "$TITLE"
-if [ $? -eq 0 ]; then
-    echo "Post '$TITLE' has been updated."
-else
-    echo "Failed to update post '$TITLE'."
-    exit 1
-fi
+
