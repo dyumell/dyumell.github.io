@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # 날짜 추출
-DATE=$(date +"%Y-%m-%di %H:%M:%S %z")
+DATE=$(date +"%Y-%m-%d")
 
 # 제목 입력
 TITLE=$1
@@ -31,16 +31,18 @@ for FILE in "$POST_DIR"/*; do
 done
 
 # 파일 이름 생성
-FILENAME="${POST_DIR}/$(date +"%Y-%m-%d")-${TITLE}.md"
+FILENAME="${POST_DIR}/${DATE}-${TITLE}.md"
 
 # 템플릿 작성
 cat > "$FILENAME" << EOF
 ---
 layout: post
 title: "$TITLE"
-date: ${DATE}
+date: ${DATE}T12:00:00+00:00
 categories:
+  - General
 tags:
+  - jekyll
 ---
 
 EOF
