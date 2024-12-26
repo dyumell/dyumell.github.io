@@ -40,9 +40,8 @@ layout: post
 title: "$TITLE"
 date: ${DATE}T12:00:00+00:00
 categories:
-  - General
 tags:
-  - jekyll
+
 ---
 
 EOF
@@ -54,4 +53,3 @@ else
     echo "Failed to create post"
     exit 1  # 생성 실패시 종료
 fi
-
